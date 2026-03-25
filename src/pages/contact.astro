@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Contact">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold mb-2">Contact Us</h1>
+    <p class="text-gray-600 mb-8">
+      Have a question, suggestion, or partnership inquiry? Fill out the form below and we'll get
+      back to you as soon as possible.
+    </p>
+
+    <form
+      action="https://formspree.io/f/xcontact"
+      method="POST"
+      class="space-y-6"
+    >
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+          placeholder="Your name"
+        />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+          placeholder="you@example.com"
+        />
+      </div>
+
+      <div>
+        <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+        <select
+          id="subject"
+          name="subject"
+          required
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition bg-white"
+        >
+          <option value="" disabled selected>Select a topic</option>
+          <option value="General Question">General Question</option>
+          <option value="Partnership / Sponsorship">Partnership / Sponsorship</option>
+          <option value="Content Suggestion">Content Suggestion</option>
+          <option value="Bug Report">Bug Report</option>
+          <option value="Privacy / Data Request">Privacy / Data Request</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition resize-y"
+          placeholder="How can we help?"
+        ></textarea>
+      </div>
+
+      <!-- Honeypot for spam prevention -->
+      <input type="text" name="_gotcha" class="hidden" />
+
+      <button
+        type="submit"
+        class="w-full sm:w-auto px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 transition"
+      >
+        Send Message
+      </button>
+    </form>
+
+    <div class="mt-10 pt-8 border-t border-gray-200 text-sm text-gray-500">
+      <p>
+        You can also reach us directly at
+        <a href="mailto:hello@wealthlab.blog" class="text-primary hover:underline">hello@wealthlab.blog</a>.
+      </p>
+      <p class="mt-2">
+        For privacy-related requests, please see our <a href="/privacy-policy" class="text-primary hover:underline">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

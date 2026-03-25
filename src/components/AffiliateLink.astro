@@ -1,0 +1,32 @@
+---
+interface Props {
+  href: string;
+  name: string;
+  class?: string;
+}
+
+const { href, name, class: className = "" } = Astro.props;
+---
+
+<span class:list={["affiliate-link-wrapper relative inline-block", className]}>
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer sponsored"
+    class="text-primary underline decoration-dotted underline-offset-2 hover:text-primary-light hover:decoration-solid transition-colors"
+    data-affiliate="true"
+  >
+    {name}<slot />
+  </a>
+  <span class="affiliate-tooltip invisible opacity-0 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-white bg-gray-800 rounded-lg whitespace-nowrap transition-all z-10">
+    Affiliate link — we may earn a commission at no extra cost to you.
+    <span class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></span>
+  </span>
+</span>
+
+<style>
+  .affiliate-link-wrapper:hover .affiliate-tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+</style>

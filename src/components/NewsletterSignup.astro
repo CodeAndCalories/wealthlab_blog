@@ -1,0 +1,52 @@
+---
+interface Props {
+  beehiivUrl?: string;
+  heading?: string;
+  subheading?: string;
+  compact?: boolean;
+}
+
+const {
+  beehiivUrl = "https://embeds.beehiiv.com/your-publication-id",
+  heading = "Get smarter about money & AI",
+  subheading = "Join 1,000+ readers getting weekly insights on personal finance and AI tools. Free, no spam.",
+  compact = false,
+} = Astro.props;
+---
+
+<section class:list={[
+  "rounded-xl border border-primary/20 bg-primary/5",
+  compact ? "p-4" : "p-6 md:p-8 text-center",
+]}>
+  {!compact && <h2 class="text-2xl font-bold mb-2">{heading}</h2>}
+  {compact && <h3 class="text-lg font-semibold mb-1">{heading}</h3>}
+  <p class:list={["text-gray-600", compact ? "text-sm mb-3" : "mb-6"]}>{subheading}</p>
+
+  <!-- Beehiiv Embed: replace beehiivUrl with your actual embed URL -->
+  <iframe
+    src={beehiivUrl}
+    data-test-id="beehiiv-embed"
+    width="100%"
+    height={compact ? "52" : "80"}
+    frameborder="0"
+    scrolling="no"
+    class="rounded-lg"
+    style={`background: transparent; max-width: ${compact ? "100%" : "480px"}; margin: 0 auto;`}
+  ></iframe>
+
+  <!-- Fallback form if you prefer a native form over the iframe -->
+  <noscript>
+    <form action={beehiivUrl} method="POST" class="flex gap-2 max-w-md mx-auto mt-4">
+      <input
+        type="email"
+        name="email"
+        placeholder="your@email.com"
+        required
+        class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+      />
+      <button type="submit" class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-primary-dark transition-colors">
+        Subscribe
+      </button>
+    </form>
+  </noscript>
+</section>

@@ -1,0 +1,24 @@
+---
+title: "AI Stock Screeners: Are They Worth It?"
+description: "We test the top AI-powered stock screening tools to see if they can actually help retail investors find better picks."
+pubDate: 2026-06-01
+tags: ["ai-tools", "investing", "review"]
+draft: false
+---
+
+This post has a future `pubDate` and won't appear on the site until June 1, 2026.
+
+The scheduled publishing system works by filtering posts where `pubDate <= now` at build time. To publish this post, simply rebuild after the publish date — Vercel's cron or a manual redeploy will pick it up.
+
+## How Scheduled Publishing Works
+
+In your content collection query:
+
+```typescript
+const now = new Date();
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft && post.data.pubDate <= now)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+```
+
+Posts with a future `pubDate` are built but excluded from listings. They remain accessible by direct URL (for preview purposes). If you want to completely exclude them from the build, add the filter to `getStaticPaths` as well.

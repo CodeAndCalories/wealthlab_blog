@@ -1,0 +1,106 @@
+---
+interface Props {
+  beehiivUrl?: string;
+  heading?: string;
+  subheading?: string;
+  delayMs?: number;
+  scrollPercent?: number;
+}
+
+const {
+  beehiivUrl = "https://embeds.beehiiv.com/your-publication-id",
+  heading = "Don't miss the next insight",
+  subheading = "Get weekly personal finance + AI strategies delivered to your inbox.",
+  delayMs = 30000,
+  scrollPercent = 50,
+} = Astro.props;
+---
+
+<div
+  id="email-popup"
+  class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Newsletter signup"
+>
+  <!-- Backdrop -->
+  <div id="popup-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+  <!-- Modal -->
+  <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-6 md:p-8 text-center animate-fade-in">
+    <button
+      id="popup-close"
+      class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+      aria-label="Close popup"
+    >
+      &times;
+    </button>
+
+    <h2 class="text-xl font-bold mb-2">{heading}</h2>
+    <p class="text-gray-600 text-sm mb-5">{subheading}</p>
+
+    <iframe
+      src={beehiivUrl}
+      width="100%"
+      height="80"
+      frameborder="0"
+      scrolling="no"
+      class="rounded-lg"
+      style="background: transparent;"
+    ></iframe>
+
+    <p class="text-xs text-gray-400 mt-3">No spam. Unsubscribe anytime.</p>
+  </div>
+</div>
+
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .animate-fade-in { animation: fade-in 0.2s ease-out; }
+</style>
+
+<script define:vars={{ delayMs, scrollPercent }}>
+  const STORAGE_KEY = "wealthlab_popup_dismissed";
+
+  function wasRecentlyDismissed() {
+    const dismissed = localStorage.getItem(STORAGE_KEY);
+    if (!dismissed) return false;
+    // Don't show again for 7 days after dismissal
+    return Date.now() - parseInt(dismissed, 10) < 7 * 24 * 60 * 60 * 1000;
+  }
+
+  function showPopup() {
+    if (wasRecentlyDismissed()) return;
+    const el = document.getElementById("email-popup");
+    if (el) el.classList.remove("hidden");
+  }
+
+  function closePopup() {
+    const el = document.getElementById("email-popup");
+    if (el) el.classList.add("hidden");
+    localStorage.setItem(STORAGE_KEY, Date.now().toString());
+  }
+
+  // Trigger: time delay
+  const timer = setTimeout(showPopup, delayMs);
+
+  // Trigger: scroll percentage
+  function onScroll() {
+    const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    if (scrolled >= scrollPercent) {
+      showPopup();
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(timer);
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Close handlers
+  document.getElementById("popup-close")?.addEventListener("click", closePopup);
+  document.getElementById("popup-backdrop")?.addEventListener("click", closePopup);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closePopup();
+  });
+</script>

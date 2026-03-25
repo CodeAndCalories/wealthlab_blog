@@ -1,0 +1,44 @@
+---
+interface Props {
+  name?: string;
+  avatar?: string;
+  bio?: string;
+  twitter?: string;
+  website?: string;
+}
+
+const {
+  name = "WealthLab",
+  avatar = "/avatar.png",
+  bio = "Writing about the intersection of personal finance and AI tools. Helping you build wealth smarter with technology.",
+  twitter,
+  website,
+} = Astro.props;
+---
+
+<div class="flex items-start gap-4 p-5 rounded-xl bg-gray-50 border border-gray-200 mt-10">
+  <img
+    src={avatar}
+    alt={name}
+    class="w-14 h-14 rounded-full object-cover flex-shrink-0"
+    onerror="this.style.display='none'"
+  />
+  <div>
+    <p class="font-semibold text-sm">{name}</p>
+    <p class="text-sm text-gray-600 mt-1">{bio}</p>
+    {(twitter || website) && (
+      <div class="flex gap-3 mt-2 text-sm">
+        {twitter && (
+          <a href={`https://x.com/${twitter}`} target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
+            @{twitter}
+          </a>
+        )}
+        {website && (
+          <a href={website} target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
+            Website
+          </a>
+        )}
+      </div>
+    )}
+  </div>
+</div>

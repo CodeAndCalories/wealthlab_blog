@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import FormattedDate from "./FormattedDate.astro";
+
+interface Props {
+  currentSlug: string;
+  tags: string[];
+  limit?: number;
+}
+
+const { currentSlug, tags, limit = 3 } = Astro.props;
+
+const now = new Date();
+const allPosts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft && p.data.pubDate <= now && p.id !== currentSlug);
+
+// Score posts by number of shared tags, then sort by date
+const scored = allPosts
+  .map((post) => ({
+    post,
+    score: post.data.tags.filter((t) => tags.includes(t)).length,
+  }))
+  .filter((s) => s.score > 0)
+  .sort((a, b) => b.score - a.score || b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf())
+  .slice(0, limit);
+---
+
+{scored.length > 0 && (
+  <section class="mt-10 pt-6 border-t border-gray-200">
+    <h2 class="text-xl font-bold mb-4">Related Posts</h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {scored.map(({ post }) => (
+        <a href={`/blog/${post.id}/`} class="group block p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow bg-white">
+          <p class="text-xs text-gray-500 mb-1">
+            <FormattedDate date={post.data.pubDate} />
+          </p>
+          <p class="font-semibold text-sm group-hover:text-primary transition-colors">{post.data.title}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

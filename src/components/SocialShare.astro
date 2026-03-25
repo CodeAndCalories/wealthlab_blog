@@ -1,0 +1,57 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  description?: string;
+}
+
+const { title, url, description = "" } = Astro.props;
+
+const encoded = {
+  title: encodeURIComponent(title),
+  url: encodeURIComponent(url),
+  desc: encodeURIComponent(description),
+};
+
+const links = [
+  { name: "Twitter / X", icon: "𝕏", href: `https://x.com/intent/tweet?text=${encoded.title}&url=${encoded.url}` },
+  { name: "LinkedIn", icon: "in", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encoded.url}` },
+  { name: "Facebook", icon: "f", href: `https://www.facebook.com/sharer/sharer.php?u=${encoded.url}` },
+  { name: "Reddit", icon: "r", href: `https://reddit.com/submit?url=${encoded.url}&title=${encoded.title}` },
+  { name: "Email", icon: "@", href: `mailto:?subject=${encoded.title}&body=${encoded.desc}%0A%0A${encoded.url}` },
+];
+---
+
+<div class="flex items-center gap-2 flex-wrap">
+  <span class="text-sm font-medium text-gray-500">Share:</span>
+  {links.map((link) => (
+    <a
+      href={link.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={`Share on ${link.name}`}
+      class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 text-xs font-bold text-gray-600 hover:bg-primary hover:text-white hover:border-primary transition-colors"
+    >
+      {link.icon}
+    </a>
+  ))}
+  <button
+    id="copy-link-btn"
+    title="Copy link"
+    class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 text-xs font-bold text-gray-600 hover:bg-primary hover:text-white hover:border-primary transition-colors"
+  >
+    &#128279;
+  </button>
+</div>
+
+<script define:vars={{ url }}>
+  document.getElementById("copy-link-btn")?.addEventListener("click", async () => {
+    await navigator.clipboard.writeText(url);
+    const btn = document.getElementById("copy-link-btn");
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = "&#10003;";
+      setTimeout(() => { btn.innerHTML = orig; }, 1500);
+    }
+  });
+</script>
