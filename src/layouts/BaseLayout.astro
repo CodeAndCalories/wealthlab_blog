@@ -89,15 +89,21 @@ const fullTitle = title === "Home" ? "WealthLab — Personal Finance & AI Tools"
     </main>
 
     <footer class="border-t border-gray-200 bg-white">
-      <div class="max-w-4xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-        <span>&copy; {new Date().getFullYear()} WealthLab. All rights reserved.</span>
+      <div class="max-w-4xl mx-auto px-4 py-6 flex flex-col items-center gap-4 text-sm text-gray-500">
+        <p class="text-xs text-gray-400 text-center max-w-2xl">
+          The content on WealthLab is for informational and educational purposes only and does not
+          constitute financial, investment, or legal advice. Always consult a qualified financial
+          advisor before making investment decisions.
+        </p>
         <div class="flex flex-wrap justify-center gap-4">
           <a href="/affiliate-disclosure" class="hover:text-primary transition-colors">Affiliate Disclosure</a>
           <a href="/privacy-policy" class="hover:text-primary transition-colors">Privacy Policy</a>
           <a href="/terms" class="hover:text-primary transition-colors">Terms</a>
+          <a href="/disclaimer" class="hover:text-primary transition-colors">Disclaimer</a>
           <a href="/contact" class="hover:text-primary transition-colors">Contact</a>
           <a href="/about" class="hover:text-primary transition-colors">About</a>
         </div>
+        <span>&copy; {new Date().getFullYear()} WealthLab. All rights reserved.</span>
       </div>
     </footer>
   </body>

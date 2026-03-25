@@ -55,6 +55,13 @@ const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
 
     <TableOfContents headings={headings} />
 
+    <div class="not-prose my-6 p-4 rounded-lg border border-amber-300 bg-amber-50 text-sm text-amber-900">
+      <p>
+        ⚠️ This post is for educational purposes only and does not constitute financial advice.
+        See our <a href="/disclaimer" class="text-primary font-medium underline">full disclaimer</a>.
+      </p>
+    </div>
+
     <slot />
   </article>
 
