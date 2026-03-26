@@ -1,15 +1,14 @@
 ---
 interface Props {
-  beehiivUrl?: string;
   heading?: string;
   subheading?: string;
   delayMs?: number;
   scrollPercent?: number;
 }
 
+const BEEHIIV_SUBSCRIBE_URL = "https://magic.beehiiv.com/v1/c93d1e86-34e5-4b93-bd94-fd2f3ae52d50";
+
 const {
-  /* REPLACE WITH YOUR BEEHIIV EMBED URL */
-  beehiivUrl = "",
   heading = "Don't miss the next insight",
   subheading = "Get weekly personal finance + AI strategies delivered to your inbox.",
   delayMs = 30000,
@@ -40,15 +39,14 @@ const {
     <h2 class="text-xl font-bold mb-2">{heading}</h2>
     <p class="text-gray-600 text-sm mb-5">{subheading}</p>
 
-    <iframe
-      src={beehiivUrl}
-      width="100%"
-      height="80"
-      frameborder="0"
-      scrolling="no"
-      class="rounded-lg"
-      style="background: transparent;"
-    ></iframe>
+    <a
+      href={BEEHIIV_SUBSCRIBE_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors"
+    >
+      Subscribe
+    </a>
 
     <p class="text-xs text-gray-400 mt-3">No spam. Unsubscribe anytime.</p>
   </div>
